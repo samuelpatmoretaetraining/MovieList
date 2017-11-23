@@ -4,7 +4,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.muelpatmore.movielist.comunicationInterfaces.OnMovieSelected;
+import com.muelpatmore.movielist.fragments.MovieListFragment;
+
+public class MainActivity extends AppCompatActivity implements OnMovieSelected{
 
     FragmentManager fragmentManager;
 
@@ -17,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             fragmentManager.beginTransaction()
-                    .add(R.id.frameLayout, MovieListFragment.newInstance(1))
+                    .add(R.id.frameLayout, new MovieListFragment())
                     .commit();
         }
 

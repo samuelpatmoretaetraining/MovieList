@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.muelpatmore.movielist">
 
+    <uses-permission
+        android:name="android.permission.INTERNET">
+
+    </uses-permission>
+
     <application
         android:name=".MovieListApp"
         android:allowBackup="true"
