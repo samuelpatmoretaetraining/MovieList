@@ -34,7 +34,8 @@ public class TopMovieListAdapter extends RecyclerView.Adapter<TopMovieListAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        TopMovieItemModel joke = topMovies.get(position);
+        TopMovieItemModel topMovie = topMovies.get(position);
+        holder.tvTitle.setText(topMovie.getTitle());
     }
 
     @Override
@@ -43,10 +44,11 @@ public class TopMovieListAdapter extends RecyclerView.Adapter<TopMovieListAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvJoke, tvCatagory, tvID;
+        TextView tvTitle;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
         }
     }
 }
