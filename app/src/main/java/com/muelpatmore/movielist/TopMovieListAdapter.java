@@ -7,20 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.muelpatmore.movielist.messages.MessageMovieSelected;
 import com.muelpatmore.movielist.model.TopMovieItemModel;
 
 import java.util.ArrayList;
+
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Samuel on 23/11/2017.
  */
 
 public class TopMovieListAdapter extends RecyclerView.Adapter<TopMovieListAdapter.MyViewHolder>{
+
+    private final PublishSubject<Integer> onClickSubject = PublishSubject.create();
+
     private ArrayList<TopMovieItemModel> topMovies;
     private int row_movie;
     private Context applicationContext;
 
     public TopMovieListAdapter(ArrayList<TopMovieItemModel> topMovieList, int row_movie, Context applicationContext) {
+
         this.topMovies = topMovieList;
         this.row_movie = row_movie;
         this.applicationContext = applicationContext;
@@ -34,8 +42,19 @@ public class TopMovieListAdapter extends RecyclerView.Adapter<TopMovieListAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
         TopMovieItemModel topMovie = topMovies.get(position);
         holder.tvTitle.setText(topMovie.getTitle());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MessageMovieSelected(position);
+            }
+        });
+    }
+
+    public Observable<Integer> getPositionClicks(){
+        return onClickSubject.hide();
     }
 
     @Override
@@ -43,17 +62,12 @@ public class TopMovieListAdapter extends RecyclerView.Adapter<TopMovieListAdapte
         return topMovies.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-        }
-
-        @Override
-        public void onClick(View v) {
-
         }
     }
 }

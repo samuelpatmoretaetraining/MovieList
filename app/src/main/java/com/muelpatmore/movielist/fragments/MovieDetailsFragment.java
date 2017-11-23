@@ -2,14 +2,16 @@ package com.muelpatmore.movielist.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.muelpatmore.movielist.R;
-import com.muelpatmore.movielist.model.TopMovieListModel;
+import com.muelpatmore.movielist.comunicationInterfaces.OnMovieSelected;
 import com.muelpatmore.movielist.model.movieDetailModels.MovieDetailModel;
 import com.muelpatmore.movielist.utils.ConnectionService;
 import com.muelpatmore.movielist.utils.Constants;
@@ -27,12 +29,23 @@ public class MovieDetailsFragment extends Fragment {
 
     public static final String TAG = "MovieDetailsFragment";
 
+    public static MovieDetailsFragment instance;
 
+    private OnMovieSelected onMovieSelected;
     private RequestInterface requestInterface;
     private CompositeDisposable comDisposable;
+    private MovieDetailModel movieDetails;
+
+    private TextView title, overview;
 
     public MovieDetailsFragment() {
-        // Required empty public constructor
+    }
+
+    public static MovieDetailsFragment getInstance() {
+        if (instance == null) {
+            instance = new MovieDetailsFragment();
+        }
+        return instance;
     }
 
 
@@ -41,6 +54,19 @@ public class MovieDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_movie_details, container, false);
+    }
+
+    @Override
+    public void onViewCreated(android.view.View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        title = (TextView) view.findViewById(R.id.tvDetailTitle);
+        overview = (TextView) view.findViewById(R.id.tvDetailOverview);
+    }
+
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        onMovieSelected = (OnMovieSelected) getActivity();
     }
 
     public void showMovieDetails(int id) {
@@ -58,7 +84,10 @@ public class MovieDetailsFragment extends Fragment {
                         .subscribe(new Consumer<MovieDetailModel>() {
                             @Override
                             public void accept(MovieDetailModel movieDetailModel) throws Exception {
-
+                                // ToDo update Fragment views with movie details
+                                Log.i(TAG, "Success loading details of movie no. "+id);
+                                movieDetails = movieDetailModel;
+                                updateMovieInformation(movieDetailModel);
                             }
                         },
                                 new Consumer<Throwable>() {
@@ -68,6 +97,11 @@ public class MovieDetailsFragment extends Fragment {
                                     }
                                 }
                         ));
+    }
+
+    private void updateMovieInformation(MovieDetailModel details) {
+        title.setText(details.getTitle());
+        overview.setText(details.getOverview());
     }
 
 }
