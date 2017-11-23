@@ -5,4 +5,5 @@ package com.muelpatmore.movielist.comunicationInterfaces;
  */
 
 public interface OnMovieSelected {
+    void movieSelected(int id);
 }

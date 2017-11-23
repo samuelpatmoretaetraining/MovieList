@@ -43,12 +43,17 @@ public class TopMovieListAdapter extends RecyclerView.Adapter<TopMovieListAdapte
         return topMovies.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvTitle;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }

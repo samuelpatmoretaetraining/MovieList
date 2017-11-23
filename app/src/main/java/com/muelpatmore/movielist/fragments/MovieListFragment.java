@@ -32,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Samuel on 23/11/2017.
  */
 
-public class MovieListFragment extends Fragment {
+public class MovieListFragment extends Fragment{
 
     public static final String TAG = "MovieListFragment";
 
@@ -79,6 +79,7 @@ public class MovieListFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager((MovieListApp.getApplication())));
             recyclerAdapter = new TopMovieListAdapter(movieList, R.layout.top_movie_card, MovieListApp.getApplication());
             recyclerView.setAdapter(recyclerAdapter);
+
         } else {
             recyclerAdapter.notifyDataSetChanged();
         }
@@ -116,6 +117,8 @@ public class MovieListFragment extends Fragment {
                         }
                 ));
     }
+
+
 
     @Override
     public void onDestroy() {
